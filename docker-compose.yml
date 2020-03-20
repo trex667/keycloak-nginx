@@ -10,12 +10,11 @@ services:
     ports:
       - "8080:8080"
 
-  keycloak:
-     build: .
-     restart: on-failure
+  keycloak-1:
+     image: keycloak-nginx:latest
      environment:
-       - KEYCLOAK_USER=admin
-       - KEYCLOAK_PASSWORD=password
+       - KEYCLOAK_USER=keycloak
+       - KEYCLOAK_PASSWORD=k
        - DB_VENDOR=postgres
        - DB_USER=admin
        - DB_PASSWORD=password
@@ -25,6 +24,19 @@ services:
        - PROXY_ADDRESS_FORWARDING=true
      depends_on:
        - keycloak-db
+
+  keycloak-2:
+    image: keycloak-nginx:latest
+    environment:
+      - DB_VENDOR=postgres
+      - DB_USER=admin
+      - DB_PASSWORD=password
+      - DB_ADDR=keycloak-db
+      - DB_PORT=5432
+      - DB_DATABASE=keycloakdb
+      - PROXY_ADDRESS_FORWARDING=true
+    depends_on:
+      - keycloak-db
 
   keycloak-db:
     image: postgres:10
