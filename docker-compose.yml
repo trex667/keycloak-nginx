@@ -12,6 +12,7 @@ services:
 
   keycloak-1:
      image: keycloak-nginx:latest
+#     command: [-Dkeycloak.migration.action=export -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=./test-realm]
      environment:
        - KEYCLOAK_USER=keycloak
        - KEYCLOAK_PASSWORD=k
@@ -25,18 +26,18 @@ services:
      depends_on:
        - keycloak-db
 
-  keycloak-2:
-    image: keycloak-nginx:latest
-    environment:
-      - DB_VENDOR=postgres
-      - DB_USER=admin
-      - DB_PASSWORD=password
-      - DB_ADDR=keycloak-db
-      - DB_PORT=5432
-      - DB_DATABASE=keycloakdb
-      - PROXY_ADDRESS_FORWARDING=true
-    depends_on:
-      - keycloak-db
+#  keycloak-2:
+#    image: keycloak-nginx:latest
+#    environment:
+#      - DB_VENDOR=postgres
+#      - DB_USER=admin
+#      - DB_PASSWORD=password
+#      - DB_ADDR=keycloak-db
+#      - DB_PORT=5432
+#      - DB_DATABASE=keycloakdb
+#      - PROXY_ADDRESS_FORWARDING=true
+#    depends_on:
+#      - keycloak-db
 
   keycloak-db:
     image: postgres:10
