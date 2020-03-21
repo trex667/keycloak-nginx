@@ -12,7 +12,7 @@ services:
 
   keycloak-1:
      image: keycloak-nginx:latest
-#     command: [-Dkeycloak.migration.action=export -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=./test-realm]
+     command: [-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/tmp/test-realm -Dkeycloak.migration.strategy=IGNORE_EXISTING]
      environment:
        - KEYCLOAK_USER=keycloak
        - KEYCLOAK_PASSWORD=k
@@ -25,6 +25,8 @@ services:
        - PROXY_ADDRESS_FORWARDING=true
      depends_on:
        - keycloak-db
+     volumes:
+       - ./test-realm:/tmp/test-realm
 
 #  keycloak-2:
 #    image: keycloak-nginx:latest
